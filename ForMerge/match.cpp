@@ -167,7 +167,7 @@ int CardGame::checkNow()
 		my_score = my_score - 4;
 		if (match_count >= 25) {
 			gameClear();
-			Sleep(5000);
+			Sleep(3000);
 			system("cls");
 			return 1;
 		}
