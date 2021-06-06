@@ -41,6 +41,8 @@ int main(void) {
 	Title title;
 	string userID = title.selectID();
 
+	cout << "1" << endl;
+
 	while (true) {
 		system("cls");
 		int select = 0;

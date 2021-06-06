@@ -34,54 +34,72 @@ void Title::showRecord(string userName) {
 }
 
 string Title::makeID() {
-	system("cls");
-	printf("아이디 생성\n\n\n");
-	printf("새 아이디를 입력하세요: ");
-	string newID = "";
-	cin >> newID;
+	while (true) {
+		bool isExist = false;
+		system("cls");
+		printf("아이디 생성\n\n\n");
+		printf("새 아이디를 입력하세요: ");
+		string newID = "";
+		cin >> newID;
 
-	string file = "userData.txt";
-	ifstream in(file);
+		string file = "userData.txt";
+		ifstream in(file);
 
-	int userCnt = 0;
-	in >> userCnt;
+		int userCnt = 0;
+		in >> userCnt;
 
-	if (userCnt == 0) {
-		userCnt = 1;
-		in.close();
+		if (userCnt == 0) {
+			userCnt = 1;
+			in.close();
 
-		ofstream out(file);
-		out << userCnt << endl;
-		out << newID << endl;
+			ofstream out(file);
+			out << userCnt << endl;
+			out << newID << endl;
 
-		out.close();
-	}
-	else {
-		list <string> userList;
-		for (int i = 0; i < userCnt; i++) {
-			string tmp;
-			in >> tmp;
-			userList.push_back(tmp);
+			out.close();
+		}
+		else {
+			list <string> userList;
+			list <string>::iterator output;
+			for (int i = 0; i < userCnt; i++) {
+				string tmp;
+				in >> tmp;
+				userList.push_back(tmp);
+			}
+
+			in.close();
+
+
+			for (output = userList.begin(); output != userList.end(); output++) {
+				if (newID._Equal(*output)) {
+					cout << newID << "는 이미 존재하는 계정입니다." << endl;
+					cout << "다시 시도하여 주십시오" << endl;
+					Sleep(1500);
+					isExist = true;
+					break;
+				}
+			}
+
+			if (isExist == true)
+				continue;
+
+			userList.push_back(newID);
+			userCnt++;
+
+			ofstream out(file);
+			out << userCnt << endl;
+			for (output = userList.begin(); output != userList.end(); output++)
+				out << *output << endl;
+			out.close();
 		}
 
-		in.close();
-		userList.push_back(newID);
-		userCnt++;
-
-		ofstream out(file);
-		out << userCnt << endl;
-		list <string>::iterator output;
-		for (output = userList.begin(); output != userList.end(); output++)
-			out << *output << endl;
-		out.close();
+		cout << "새로운계정의 이름은 " << newID << "입니다.\n" << endl;
+		printf("\n\n\n\n아이디 정보가 저장 되었습니다.");
+		Sleep(500);
+		printf("\n새로운 아이디로 게임을 시작합니다.");
+		Sleep(1000);
+		return newID;
 	}
-
-	cout << "새로운계정의 이름은 " << newID << "입니다.\n" << endl;
-	printf("\n\n\n\n아이디 정보가 저장 되었습니다.");
-	Sleep(500);
-	printf("\n새로운 아이디로 게임을 시작합니다.");
-	Sleep(1000);
-	return newID;
 }
 
 string Title::selectID() {
